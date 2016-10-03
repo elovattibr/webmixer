@@ -63,6 +63,49 @@ class mixer extends \Runtime\Module {
         
     }
     
+    public function groups(){
+        
+        $response = $this->interfacer();
+        
+        $groups = Array(
+            "playback"=>Array(),
+            "capture"=>Array(),
+            "master"=>Array(),
+            "preferences"=>$this->preferences,
+        );
+        
+        foreach($response['controls'] AS $idx => $control) {
+            
+            switch(true){
+                
+                case (strpos($control['name'], 'PCM') !== false):
+                case (strpos($control['name'], 'Master') !== false):
+                case (strpos($control['name'], 'master') !== false):
+                case (strpos($control['name'], 'Line') !== false):
+                case (strpos($control['name'], 'line') !== false):
+                    $groups['master'][] = $control;
+                    break;
+            }
+                
+            switch(true){
+                case (strpos($control['name'], 'Mic') !== false):
+                case (strpos($control['name'], 'mic') !== false):
+                case (strpos($control['name'], 'Capture') !== false):
+                case (strpos($control['name'], 'capture') !== false):
+                case (strpos($control['name'], 'Line') !== false):
+                case (strpos($control['name'], 'line') !== false):
+                    $groups['capture'][] = $control;
+                    break;
+            }
+            
+            error_log(" {$control['name']}");
+            
+        }
+        
+        return $groups;
+        
+    }
+    
     public function set(){
         
         $contents = $this->amixer("cset numid={$this->request['id']} {$this->request['value']} {$this->request['channel']} ");

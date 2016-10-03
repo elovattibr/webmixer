@@ -109,6 +109,16 @@
             
         };        
         
+        self.groups = function(device, callback){
+            
+            $.post('/mixer/groups', {'device': device}, function(controls){
+                
+                callback(controls);
+                
+            });
+            
+        };        
+        
         self.preferences = function (callback){
             
             $.post('/preferences/get', {}, function(preferences){

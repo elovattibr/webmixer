@@ -50,33 +50,6 @@
 
     </script>
     
-    <div class="modal fade customize-modal" tabindex="-1" role="dialog">
-
-      <div class="modal-dialog" role="document">
-
-        <div class="modal-content">
-
-          <div class="modal-header">
-
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Customizing </h4>
-          </div>
-
-          <div class="modal-body">
-            <p>One fine body&hellip;</p>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>    
-    
 </div>
 
 <script>
@@ -87,20 +60,6 @@ $(function(){
         controls = $('.render_controls',page),
         template = $.templates("#tpl_control");
         
-    function render(idx, control){
-
-        /*Jsviews convinience*/
-        control.index = idx;
-
-        if(control.switch || control.source || control.volume){
-
-            /*Append the control*/
-            controls.append( template.render(control) );
-
-        }
-
-    };   
-    
     function bind(preferences, total){
         
         $(".slider", controls).each(function(){
@@ -186,22 +145,11 @@ $(function(){
         });        
     }
         
-    mixer.controls(device, function(response){
+    mixer.groups(device, function(response){
         
-        var total = $(response.controls).size(),
-            mixer_name = $('.mixer_name',page);
-        
-        mixer_name.text(response.preferences.label);
-        
-        $.each(response.controls, function(idx, control){
+        controls.append( template.render(response.master) );
 
-            render(idx, control);
-
-            if((total-1)===idx) {
-
-                bind(response.preferences, total);
-            };
-        });        
+        bind(response.preferences);
         
     });
   
