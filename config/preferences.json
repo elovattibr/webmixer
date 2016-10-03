@@ -1,0 +1,1 @@
+{"devices":{"default":{"label":"Default soundcard","columns":"4","mode":"mixer","orientation":"horizontal","presets":true,"schedule":true,"mixers":[]},"equal":{"label":"Equalizer","columns":"1","mode":"equalizer","orientation":"vertical","presets":true,"schedule":true,"mixers":[]}}}
